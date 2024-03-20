@@ -22,6 +22,7 @@ export function InputNumber(props: Readonly<InputProps>) {
         className="bg-transparent outline-0 size-5 text-center text-base-title text-base font-roboto [&::-webkit-inner-spin-button]:hidden"
         type="number"
         min={1}
+        defaultValue={1}
       />
       <button
         type="button"
