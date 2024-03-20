@@ -30,6 +30,9 @@ export default {
         baloo: ["'Baloo 2'"],
         roboto: ["Roboto"],
       },
+      backgroundImage: {
+        banner: "url(/banner.png)",
+      },
     },
   },
   plugins: [],
