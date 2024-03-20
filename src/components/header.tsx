@@ -7,7 +7,7 @@ import logo from "../assets/logo.svg"
 export function Header() {
   return (
     <header className="bg-base-background">
-      <div className="flex items-center justify-between mx-auto max-w-6xl py-8">
+      <div className="flex items-center justify-between mx-auto max-w-6xl px-4 py-8">
         <img
           src={logo}
           alt=""
