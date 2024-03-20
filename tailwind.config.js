@@ -27,7 +27,7 @@ export default {
         },
       },
       fontFamily: {
-        baloo: ["Baloo 2"],
+        baloo: ["'Baloo 2'"],
         roboto: ["Roboto"],
       },
     },
