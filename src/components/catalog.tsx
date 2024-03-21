@@ -15,7 +15,7 @@ interface CatalogProps {
 
 export function Catalog(props: Readonly<CatalogProps>) {
   return (
-    <div className="relative max-w-64 min-h-80 bg-base-card rounded-tl-md rounded-br-md rounded-tr-[36px] rounded-bl-[36px] p-5 pt-0 m-5 text-center flex flex-col">
+    <div className="relative min-h-80 bg-base-card rounded-tl-md rounded-br-md rounded-tr-[36px] rounded-bl-[36px] p-5 pt-0 text-center flex flex-col">
       <img
         src={props.image}
         alt={props.name}
