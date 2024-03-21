@@ -2,7 +2,7 @@ import { ShoppingCart } from "@phosphor-icons/react"
 import { Link } from "react-router-dom"
 
 interface CartProps {
-  numberOfItems?: number
+  numberOfItems: number
 }
 
 export function Cart(props: Readonly<CartProps>) {
@@ -17,7 +17,7 @@ export function Cart(props: Readonly<CartProps>) {
         size={22}
       />
 
-      {props.numberOfItems && (
+      {props.numberOfItems > 0 && (
         <div className="rounded-full text-white size-5 flex items-center justify-center font-roboto font-bold text-xs absolute bg-yellow-dark -top-2 -right-2">
           {props.numberOfItems}
         </div>

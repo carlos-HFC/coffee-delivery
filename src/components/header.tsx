@@ -4,8 +4,11 @@ import { Link } from "react-router-dom"
 import { Cart } from "./cart"
 
 import logo from "../assets/logo.svg"
+import { useDelivery } from "../contexts/delivery"
 
 export function Header() {
+  const { numberOfItems } = useDelivery()
+
   return (
     <header className="bg-base-background">
       <div className="flex items-center justify-between mx-auto max-w-6xl px-4 py-8">
@@ -26,7 +29,7 @@ export function Header() {
             <p className="text-purple-dark text-sm font-roboto">São Paulo, SP</p>
           </div>
 
-          <Cart />
+          <Cart numberOfItems={numberOfItems} />
         </div>
       </div>
     </header>

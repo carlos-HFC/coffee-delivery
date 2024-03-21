@@ -1,7 +1,10 @@
+import { useRef } from "react"
+
 import { Button } from "./button"
 import { InputNumber } from "./input-number"
 import { Tag } from "./tag"
 
+import { useDelivery } from "../contexts/delivery"
 import { numberFormatter } from "../utils/formatter"
 
 interface CatalogProps {
@@ -14,6 +17,17 @@ interface CatalogProps {
 }
 
 export function Catalog(props: Readonly<CatalogProps>) {
+  const { addToCart } = useDelivery()
+
+  const inputRef = useRef({} as HTMLInputElement)
+
+  function handleAddCoffeeToCart() {
+    addToCart({
+      ...props,
+      qty: Number(inputRef.current.value),
+    })
+  }
+
   return (
     <div className="relative min-h-80 bg-base-card rounded-tl-md rounded-br-md rounded-tr-[36px] rounded-bl-[36px] p-5 pt-0 text-center flex flex-col">
       <img
@@ -37,8 +51,15 @@ export function Catalog(props: Readonly<CatalogProps>) {
         </p>
 
         <div className="flex gap-2">
-          <InputNumber />
-          <Button variant="icon" />
+          <InputNumber
+            ref={inputRef}
+            onIncrement={() => inputRef.current.stepUp()}
+            onDecrement={() => inputRef.current.stepDown()}
+          />
+          <Button
+            variant="icon"
+            onClick={handleAddCoffeeToCart}
+          />
         </div>
       </footer>
     </div>

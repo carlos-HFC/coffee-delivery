@@ -1,24 +1,24 @@
 import { Minus, Plus } from "@phosphor-icons/react"
-import { ComponentProps, useRef } from "react"
+import { ComponentProps, forwardRef } from "react"
 
-interface InputProps extends ComponentProps<"input"> {}
+interface InputProps extends ComponentProps<"input"> {
+  onDecrement(): void
+  onIncrement(): void
+}
 
-export function InputNumber(props: Readonly<InputProps>) {
-  const inputRef = useRef({} as HTMLInputElement)
-
+export const InputNumber = forwardRef<HTMLInputElement, Readonly<InputProps>>((props, ref) => {
   return (
     <div className="relative flex items-center justify-center gap-1 p-2 w-min bg-base-button rounded-md">
       <button
         type="button"
         className="text-purple hover:text-purple-dark"
-        onClick={() => inputRef.current.stepDown()}
+        onClick={props.onDecrement}
       >
         <Minus size={14} />
       </button>
       <input
         {...props}
-        readOnly
-        ref={inputRef}
+        ref={ref}
         className="bg-transparent outline-0 size-5 text-center text-base-title text-base font-roboto [&::-webkit-inner-spin-button]:hidden"
         type="number"
         min={1}
@@ -27,10 +27,12 @@ export function InputNumber(props: Readonly<InputProps>) {
       <button
         type="button"
         className="text-purple hover:text-purple-dark"
-        onClick={() => inputRef.current.stepUp()}
+        onClick={props.onIncrement}
       >
         <Plus size={14} />
       </button>
     </div>
   )
-}
+})
+
+InputNumber.displayName = "InputNumber"
