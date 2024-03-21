@@ -1,4 +1,5 @@
 import { MapPin } from "@phosphor-icons/react"
+import { Link } from "react-router-dom"
 
 import { Cart } from "./cart"
 
@@ -8,10 +9,12 @@ export function Header() {
   return (
     <header className="bg-base-background">
       <div className="flex items-center justify-between mx-auto max-w-6xl px-4 py-8">
-        <img
-          src={logo}
-          alt=""
-        />
+        <Link to="/">
+          <img
+            src={logo}
+            alt=""
+          />
+        </Link>
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 rounded-md bg-purple-light p-2">

@@ -1,14 +1,14 @@
 import { ShoppingCart } from "@phosphor-icons/react"
-import { ComponentProps } from "react"
+import { Link } from "react-router-dom"
 
-interface CartProps extends ComponentProps<"button"> {
+interface CartProps {
   numberOfItems?: number
 }
 
 export function Cart(props: Readonly<CartProps>) {
   return (
-    <button
-      {...props}
+    <Link
+      to="/checkout"
       className="flex items-center justify-center p-2 rounded-md bg-yellow-light relative"
     >
       <ShoppingCart
@@ -22,6 +22,6 @@ export function Cart(props: Readonly<CartProps>) {
           {props.numberOfItems}
         </div>
       )}
-    </button>
+    </Link>
   )
 }
