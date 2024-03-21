@@ -8,10 +8,10 @@ interface InputProps extends ComponentProps<"input"> {
 
 export function Input(props: Readonly<InputProps>) {
   return (
-    <div className="relative flex items-center">
+    <div className={cn("relative flex items-center", props.className)}>
       <input
         {...props}
-        className="p-3 outline-0 rounded bg-base-input border border-base-button focus:border-yellow-dark placeholder:text-base-label text-base-text font-roboto text-sm flex-1 peer"
+        className="p-3 outline-0 rounded w-full bg-base-input border border-base-button focus:border-yellow-dark placeholder:text-base-label text-base-text font-roboto text-sm flex-1 peer"
         placeholder={props.label}
       />
       <p

@@ -19,7 +19,7 @@ export function Button(props: Readonly<ButtonProps>) {
       break
     case "primary":
     default:
-      variant = "bg-yellow hover:bg-yellow-dark text-white font-bold text-sm font-roboto p-3 min-w-32"
+      variant = "bg-yellow hover:bg-yellow-dark text-white font-bold text-sm leading-relaxed font-roboto p-3 min-w-32"
       break
   }
 

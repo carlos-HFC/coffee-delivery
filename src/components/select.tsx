@@ -39,7 +39,7 @@ export function Select(props: Readonly<SelectProps>) {
   }
 
   return (
-    <label className="rounded-md border border-transparent has-[:checked]:border-purple p-4 flex items-center justify-center bg-base-button hover:bg-base-hover has-[:checked]:bg-purple-light cursor-pointer relative group">
+    <label className="rounded-md border border-transparent has-[:checked]:border-purple p-4 flex items-center bg-base-button hover:bg-base-hover has-[:checked]:bg-purple-light cursor-pointer relative group">
       <input
         name={props.name}
         type="radio"
