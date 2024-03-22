@@ -1,5 +1,6 @@
 import { CurrencyDollar, MapPinLine } from "@phosphor-icons/react"
 import { ChangeEvent, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { Button } from "../components/button"
 import { EmptyCart } from "../components/empty-cart"
@@ -7,6 +8,7 @@ import { Input } from "../components/input"
 import { ProductCart } from "../components/product-cart"
 import { Select } from "../components/select"
 
+import { ORDER_INFO_STORAGE } from "../constants"
 import { useDelivery } from "../contexts/delivery"
 import { useCheckout } from "../hooks/useCheckout"
 import { numberFormatter } from "../utils/formatter"
@@ -35,6 +37,8 @@ type Form = {
 }
 
 export function Checkout() {
+  const navigate = useNavigate()
+
   const { items } = useDelivery()
   const { tax, total, totalItems } = useCheckout()
 
@@ -89,6 +93,26 @@ export function Checkout() {
     }
   }
 
+  function handleCompleteOrder() {
+    const address = `${formRef.current.address.value}, ${formRef.current.number.value}`
+
+    if (formRef.current.complement.value) address.concat(` - ${formRef.current.complement.value}`)
+
+    const orderInfo = JSON.stringify({
+      address,
+      district: formRef.current.district.value,
+      city: formRef.current.city.value,
+      uf: formRef.current.uf.value,
+      payment,
+    })
+
+    localStorage.setItem(ORDER_INFO_STORAGE, orderInfo)
+
+    navigate("/confirmed", {
+      replace: true,
+    })
+  }
+
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 py-10">
@@ -127,7 +151,7 @@ export function Checkout() {
                 </div>
 
                 <footer className="*:w-full">
-                  <Button>Confirmar pedido</Button>
+                  <Button onClick={handleCompleteOrder}>Confirmar pedido</Button>
                 </footer>
               </div>
             </div>

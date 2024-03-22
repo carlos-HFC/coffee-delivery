@@ -1,8 +1,35 @@
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react"
+import { useEffect, useState } from "react"
+import { Navigate } from "react-router-dom"
+
+import { ORDER_INFO_STORAGE } from "../constants"
+import { showPaymentMethod } from "../utils/payment-method"
 
 import delivery from "../assets/delivery.svg"
 
+const INITIAL_ORDER_INFO = {
+  address: "",
+  district: "",
+  city: "",
+  uf: "",
+  payment: "",
+}
+
 export function Confirmed() {
+  const [orderInfo, setOrderInfo] = useState(INITIAL_ORDER_INFO)
+
+  useEffect(() => {
+    const orderInfoStorage = localStorage.getItem(ORDER_INFO_STORAGE)
+
+    if (orderInfoStorage) {
+      const parsedStorage = JSON.parse(orderInfoStorage)
+
+      setOrderInfo(parsedStorage)
+    }
+  }, [])
+
+  if (Object.values(orderInfo).length <= 0) return <Navigate to="/" />
+
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 py-10 md:py-20">
@@ -25,9 +52,11 @@ export function Confirmed() {
 
                   <div className="text-base-text font-roboto leading-snug">
                     <span className="block">
-                      Entrega em <strong>Rua</strong>
+                      Entrega em <strong>{orderInfo.address}</strong>
                     </span>
-                    <span>Bairro - Cidade, UF</span>
+                    <span>
+                      {orderInfo.district} - {orderInfo.city}, {orderInfo.uf}
+                    </span>
                   </div>
                 </div>
 
@@ -55,7 +84,7 @@ export function Confirmed() {
 
                   <div className="text-base-text font-roboto leading-snug">
                     <span className="block">Pagamento na entrega</span>
-                    <strong>Cartão de Crédito</strong>
+                    <strong>{showPaymentMethod(orderInfo.payment)}</strong>
                   </div>
                 </div>
               </div>

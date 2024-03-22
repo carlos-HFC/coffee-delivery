@@ -129,3 +129,5 @@ export const COFFEES = [
 ]
 
 export const TAX = 3.5
+
+export const ORDER_INFO_STORAGE = "@coffee-delivery:order-info"
