@@ -26,6 +26,8 @@ export function Catalog(props: Readonly<CatalogProps>) {
       ...props,
       qty: Number(inputRef.current.value),
     })
+
+    inputRef.current.value = "1"
   }
 
   return (
