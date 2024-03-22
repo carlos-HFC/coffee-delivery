@@ -26,7 +26,7 @@ export function Button(props: Readonly<ButtonProps>) {
   return (
     <button
       {...props}
-      className={cn("rounded-md uppercase border-0 flex items-center justify-center gap-1", variant)}
+      className={cn("rounded-md uppercase border-0 flex items-center justify-center gap-1", variant, props.className)}
     >
       {props.variant === "icon" ? (
         <ShoppingCartSimple
