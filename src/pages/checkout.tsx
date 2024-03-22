@@ -1,81 +1,50 @@
-import { CurrencyDollar, MapPinLine, Trash } from "@phosphor-icons/react"
+import { CurrencyDollar, MapPinLine } from "@phosphor-icons/react"
 
 import { Button } from "../components/button"
 import { Input } from "../components/input"
-import { InputNumber } from "../components/input-number"
+import { ProductCart } from "../components/product-cart"
 import { Select } from "../components/select"
 
+import { useDelivery } from "../contexts/delivery"
+import { useCheckout } from "../hooks/useCheckout"
+import { numberFormatter } from "../utils/formatter"
+
 export function Checkout() {
+  const { items } = useDelivery()
+
+  const { tax, total, totalItems } = useCheckout()
+
   return (
-    <main>
-      <div className="max-w-6xl mx-auto px-4 py-10 md:pb-40">
+    <>
+      <div className="max-w-6xl mx-auto px-4 pt-10">
         <div className="flex flex-col lg:flex-row-reverse gap-8">
           <div className="space-y-3">
             <h3 className="text-base-title text-lg leading-snug font-bold font-baloo">Cafés selecionados</h3>
 
             <div className="p-5 sm:p-10 rounded-tl-md rounded-br-md rounded-tr-[44px] rounded-bl-[44px] bg-base-card flex flex-col gap-6">
-              <div className="flex items-start gap-2 flex-wrap sm:flex-nowrap justify-between sm:justify-start pb-6 border-b border-base-button lg:min-w-[350px]">
-                <div className="w-1/3 sm:w-auto">
-                  <img
-                    src="/favicon.svg"
-                    alt=""
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2 order-last sm:order-none w-full sm:w-auto sm:flex-1">
-                  <span className="w-full leading-snug font-roboto text-base-subtitle">Expresso tradicional</span>
-
-                  <div className="flex gap-2 *:w-full sm:*:w-auto">
-                    <InputNumber />
-                    <Button variant="secondary">
-                      <Trash />
-                      Remover
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="w-1/3 sm:w-auto text-right">
-                  <span className="text-base-text font-roboto font-bold leading-snug">R$ 9.9</span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-2 flex-wrap sm:flex-nowrap justify-between sm:justify-start pb-6 border-b border-base-button lg:min-w-[350px]">
-                <div className="w-1/3 sm:w-auto">
-                  <img
-                    src="/favicon.svg"
-                    alt=""
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2 order-last sm:order-none w-full sm:w-auto sm:flex-1">
-                  <span className="w-full leading-snug font-roboto text-base-subtitle">Expresso tradicional</span>
-
-                  <div className="flex gap-2 *:w-full sm:*:w-auto">
-                    <InputNumber />
-                    <Button variant="secondary">
-                      <Trash />
-                      Remover
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="w-1/3 sm:w-auto text-right">
-                  <span className="text-base-text font-roboto font-bold leading-snug">R$ 9.9</span>
-                </div>
-              </div>
+              {items.map(item => (
+                <ProductCart
+                  key={item.id}
+                  {...item}
+                />
+              ))}
 
               <div className="flex flex-col gap-3">
                 <div className="flex justify-between items-center">
                   <span className="text-base-text font-roboto text-sm leading-snug">Total de itens</span>
-                  <span className="text-base-text font-roboto leading-snug">R$ 29.9</span>
+                  <span className="text-base-text font-roboto leading-snug">
+                    R$ {numberFormatter.format(totalItems)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-base-text font-roboto text-sm leading-snug">Entrega</span>
-                  <span className="text-base-text font-roboto leading-snug">R$ 3.5</span>
+                  <span className="text-base-text font-roboto leading-snug">R$ {numberFormatter.format(tax)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-base-subtitle font-roboto font-bold text-xl leading-snug">Total</span>
-                  <span className="text-base-subtitle font-roboto font-bold text-xl leading-snug">R$ 29.9</span>
+                  <span className="text-base-subtitle font-roboto font-bold text-xl leading-snug">
+                    R$ {numberFormatter.format(total)}
+                  </span>
                 </div>
               </div>
 
@@ -185,6 +154,6 @@ export function Checkout() {
           </div>
         </div>
       </div>
-    </main>
+    </>
   )
 }

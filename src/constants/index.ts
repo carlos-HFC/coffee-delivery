@@ -127,3 +127,5 @@ export const COFFEES = [
     tags: ["especial", "alcoólico"],
   },
 ]
+
+export const TAX = 3.5
