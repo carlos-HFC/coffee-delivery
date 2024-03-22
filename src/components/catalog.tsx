@@ -55,6 +55,7 @@ export function Catalog(props: Readonly<CatalogProps>) {
         <div className="flex gap-2">
           <InputNumber
             ref={inputRef}
+            defaultValue={1}
             onIncrement={() => inputRef.current.stepUp()}
             onDecrement={() => inputRef.current.stepDown()}
           />

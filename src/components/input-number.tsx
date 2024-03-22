@@ -22,7 +22,6 @@ export const InputNumber = forwardRef<HTMLInputElement, Readonly<InputProps>>((p
         className="bg-transparent outline-0 size-5 text-center text-base-title text-base font-roboto [&::-webkit-inner-spin-button]:hidden"
         type="number"
         min={1}
-        defaultValue={1}
       />
       <button
         type="button"

@@ -1,4 +1,5 @@
 import { CurrencyDollar, MapPinLine } from "@phosphor-icons/react"
+import { ChangeEvent, useRef, useState } from "react"
 
 import { Button } from "../components/button"
 import { EmptyCart } from "../components/empty-cart"
@@ -10,10 +11,83 @@ import { useDelivery } from "../contexts/delivery"
 import { useCheckout } from "../hooks/useCheckout"
 import { numberFormatter } from "../utils/formatter"
 
+type ResponseCep =
+  | { erro: true }
+  | {
+      logradouro: string
+      bairro: string
+      localidade: string
+      uf: string
+    }
+
+const DeliveryAddress = {
+  cep: "",
+  address: "",
+  number: "",
+  district: "",
+  city: "",
+  uf: "",
+  complement: "",
+} as const
+
+type Form = {
+  [key in keyof typeof DeliveryAddress]: HTMLInputElement
+}
+
 export function Checkout() {
   const { items } = useDelivery()
-
   const { tax, total, totalItems } = useCheckout()
+
+  const formRef = useRef({} as HTMLFormElement & Form)
+
+  const [cep, setCep] = useState("")
+  const [payment, setPayment] = useState("")
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    setPayment(event.target.value)
+  }
+
+  async function searchCep() {
+    if (cep.length < 9) return
+
+    const keys = Object.keys(DeliveryAddress)
+
+    for (const key of keys) {
+      if (key !== "cep") {
+        formRef.current[key].value = ""
+      }
+    }
+
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    const response = (await res.json()) as ResponseCep
+
+    if ("erro" in response) {
+      for (const key of keys) {
+        if (key !== "cep") {
+          formRef.current[key].setAttribute("disabled", true)
+        }
+      }
+
+      return
+    }
+
+    const { bairro: district, localidade: city, logradouro: address, uf } = response
+
+    formRef.current.district.value = district
+    formRef.current.address.value = address
+    formRef.current.city.value = city
+    formRef.current.uf.value = uf
+
+    for (const key of keys) {
+      if (key !== "cep") {
+        if (formRef.current[key].value.length <= 0) {
+          formRef.current[key].removeAttribute("disabled")
+        } else {
+          formRef.current[key].setAttribute("disabled", true)
+        }
+      }
+    }
+  }
 
   return (
     <>
@@ -61,7 +135,10 @@ export function Checkout() {
             <div className="flex-1 space-y-3">
               <h3 className="text-base-title text-lg leading-snug font-bold font-baloo">Complete seu pedido</h3>
 
-              <div className="p-5 sm:p-10 rounded-md bg-base-card flex flex-col gap-8">
+              <form
+                ref={formRef}
+                className="p-5 sm:p-10 rounded-md bg-base-card flex flex-col gap-8"
+              >
                 <div className="flex gap-2">
                   <MapPinLine
                     size={22}
@@ -81,21 +158,34 @@ export function Checkout() {
                     label="CEP"
                     required
                     className="sm:max-w-48"
+                    name="cep"
+                    value={cep}
+                    onChange={event =>
+                      setCep(event.target.value.replace(/\D/g, "").replace(/(\d{5})(\d{3})\d?$/, "$1-$2"))
+                    }
+                    onBlur={searchCep}
                   />
                   <Input
                     label="Rua"
                     required
+                    name="address"
+                    disabled
                   />
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Input
                       label="Número"
+                      type="number"
                       required
                       className="sm:max-w-48"
+                      name="number"
+                      disabled
                     />
                     <Input
                       label="Complemento"
                       className="flex-1"
+                      name="complement"
+                      disabled
                     />
                   </div>
 
@@ -104,20 +194,26 @@ export function Checkout() {
                       label="Bairro"
                       required
                       className="sm:max-w-48"
+                      name="district"
+                      disabled
                     />
                     <Input
                       label="Cidade"
                       required
                       className="flex-1"
+                      name="city"
+                      disabled
                     />
                     <Input
                       label="UF"
                       required
                       className="sm:max-w-16"
+                      name="uf"
+                      disabled
                     />
                   </div>
                 </div>
-              </div>
+              </form>
 
               <div className="p-5 sm:p-10 rounded-md bg-base-card flex flex-col gap-8">
                 <div className="flex gap-2">
@@ -136,20 +232,29 @@ export function Checkout() {
 
                 <div className="flex flex-col md:flex-row *:flex-1 gap-3">
                   <Select
-                    name="payment-method"
+                    name="payment"
                     icon="card"
+                    value="credit-card"
+                    onChange={handleChange}
+                    checked={payment === "credit-card"}
                   >
                     Cartão de crédito
                   </Select>
                   <Select
-                    name="payment-method"
+                    name="payment"
                     icon="bank"
+                    value="debit-card"
+                    onChange={handleChange}
+                    checked={payment === "debit-card"}
                   >
                     Cartão de débito
                   </Select>
                   <Select
-                    name="payment-method"
+                    name="payment"
                     icon="money"
+                    value="cash"
+                    onChange={handleChange}
+                    checked={payment === "cash"}
                   >
                     Dinheiro
                   </Select>

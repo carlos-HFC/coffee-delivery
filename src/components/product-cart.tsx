@@ -21,7 +21,7 @@ export function ProductCart(props: Readonly<ProductCartProps>) {
   const inputRef = useRef({} as HTMLInputElement)
 
   function handleChangeQty(qty: number) {
-    if (props.qty === 1) return
+    if (props.qty === 1 && qty < 0) return
 
     addToCart({
       ...props,
@@ -52,7 +52,7 @@ export function ProductCart(props: Readonly<ProductCartProps>) {
         <div className="flex gap-2 *:w-full sm:*:w-auto">
           <InputNumber
             ref={inputRef}
-            value={props.qty}
+            defaultValue={props.qty}
             onIncrement={() => {
               inputRef.current.stepUp()
               handleChangeQty(+1)
