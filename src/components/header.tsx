@@ -3,14 +3,15 @@ import { Link } from "react-router-dom"
 
 import { Cart } from "./cart"
 
-import logo from "../assets/logo.svg"
 import { useDelivery } from "../contexts/delivery"
+
+import logo from "../assets/logo.svg"
 
 export function Header() {
   const { numberOfItems } = useDelivery()
 
   return (
-    <header className="bg-base-background">
+    <header className="bg-base-background w-full fixed z-10">
       <div className="flex items-center justify-between mx-auto max-w-6xl px-4 py-8">
         <Link to="/">
           <img

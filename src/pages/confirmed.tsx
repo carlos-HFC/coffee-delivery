@@ -4,7 +4,7 @@ import delivery from "../assets/delivery.svg"
 
 export function Confirmed() {
   return (
-    <main>
+    <>
       <div className="max-w-6xl mx-auto px-4 py-10 md:py-20">
         <div className="grid gap-8 lg:gap-20 lg:grid-cols-2 lg:items-end">
           <div>
@@ -70,6 +70,6 @@ export function Confirmed() {
           </div>
         </div>
       </div>
-    </main>
+    </>
   )
 }

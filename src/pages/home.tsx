@@ -5,7 +5,7 @@ import { COFFEES } from "../constants"
 
 export function Home() {
   return (
-    <main>
+    <>
       <Banner />
 
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-40 flex flex-col gap-12">
@@ -20,6 +20,6 @@ export function Home() {
           ))}
         </div>
       </div>
-    </main>
+    </>
   )
 }

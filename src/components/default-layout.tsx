@@ -6,7 +6,10 @@ export function DefaultLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+
+      <main className="pt-28">
+        <Outlet />
+      </main>
     </>
   )
 }
