@@ -44,6 +44,8 @@ npm run dev
 # :computer_mouse: Uso da aplicação
 
 1. Abra o navegador e acesse [http://localhost:3000](http://localhost:3000)
+2. Adicione cafés ao carrinho
+3. Preencha os dados de entrega e a forma de pagamento
 
 # :computer: Tecnologias utilizadas
 
