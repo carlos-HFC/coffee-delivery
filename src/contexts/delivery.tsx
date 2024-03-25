@@ -1,5 +1,6 @@
-import { PropsWithChildren, createContext, useContext, useReducer } from "react"
+import { PropsWithChildren, createContext, useContext, useEffect, useReducer } from "react"
 
+import { CART_ITEMS_STORAGE } from "../constants"
 import { addCoffeeToCart, removeCoffeeToCart } from "../reducers/delivery/actions"
 import { deliveryReducer } from "../reducers/delivery/reducer"
 
@@ -23,12 +24,32 @@ export const DeliveryContext = createContext({} as DeliveryContextProps)
 export const useDelivery = () => useContext(DeliveryContext)
 
 export function DeliveryProvider(props: PropsWithChildren) {
-  const [deliveryState, dispatch] = useReducer(deliveryReducer, {
-    items: [],
-    numberOfItems: 0,
-  })
+  const [deliveryState, dispatch] = useReducer(
+    deliveryReducer,
+    {
+      items: [],
+      numberOfItems: 0,
+    },
+    initialState => {
+      const cartItemsStorage = localStorage.getItem(CART_ITEMS_STORAGE)
+
+      if (cartItemsStorage) {
+        const parsedCartItems = JSON.parse(cartItemsStorage)
+
+        return parsedCartItems
+      }
+
+      return initialState
+    },
+  )
 
   const { items, numberOfItems } = deliveryState
+
+  useEffect(() => {
+    const cartItemsJSON = JSON.stringify(deliveryState)
+
+    localStorage.setItem(CART_ITEMS_STORAGE, cartItemsJSON)
+  }, [deliveryState])
 
   function addToCart(data: Coffee) {
     dispatch(addCoffeeToCart(data))
