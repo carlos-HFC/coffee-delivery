@@ -1,7 +1,7 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useReducer } from "react"
 
 import { CART_ITEMS_STORAGE } from "../constants"
-import { addCoffeeToCart, removeCoffeeToCart } from "../reducers/delivery/actions"
+import { addCoffeeToCart, cleanAllCart, removeCoffeeToCart } from "../reducers/delivery/actions"
 import { deliveryReducer } from "../reducers/delivery/reducer"
 
 interface Coffee {
@@ -17,6 +17,7 @@ interface DeliveryContextProps {
   numberOfItems: number
   addToCart(data: Coffee): void
   removeToCart(id: number): void
+  cleanCart(): void
 }
 
 export const DeliveryContext = createContext({} as DeliveryContextProps)
@@ -59,8 +60,12 @@ export function DeliveryProvider(props: PropsWithChildren) {
     dispatch(removeCoffeeToCart(id))
   }
 
+  function cleanCart() {
+    dispatch(cleanAllCart())
+  }
+
   return (
-    <DeliveryContext.Provider value={{ items, numberOfItems, addToCart, removeToCart }}>
+    <DeliveryContext.Provider value={{ items, numberOfItems, addToCart, removeToCart, cleanCart }}>
       {props.children}
     </DeliveryContext.Provider>
   )

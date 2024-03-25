@@ -1,6 +1,7 @@
 export enum ActionTypes {
   ADD_TO_CART = "ADD_TO_CART",
   REMOVE_TO_CART = "REMOVE_TO_CART",
+  CLEAN_CART = "CLEAN_CART",
 }
 
 interface AddCoffeeToCart {
@@ -26,5 +27,11 @@ export function removeCoffeeToCart(id: number) {
     payload: {
       id,
     },
+  }
+}
+
+export function cleanAllCart() {
+  return {
+    type: ActionTypes.CLEAN_CART,
   }
 }

@@ -47,6 +47,12 @@ export function deliveryReducer(state: DeliveryState, action: DeliveryAction) {
         numberOfItems: state.numberOfItems - 1,
       }
     }
+    case ActionTypes.CLEAN_CART: {
+      return {
+        items: [],
+        numberOfItems: 0,
+      }
+    }
     default:
       return state
   }

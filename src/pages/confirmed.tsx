@@ -6,6 +6,7 @@ import { ORDER_INFO_STORAGE } from "../constants"
 import { showPaymentMethod } from "../utils/payment-method"
 
 import delivery from "../assets/delivery.svg"
+import { useDelivery } from "../contexts/delivery"
 
 const INITIAL_ORDER_INFO = {
   address: "",
@@ -16,6 +17,8 @@ const INITIAL_ORDER_INFO = {
 }
 
 export function Confirmed() {
+  const { cleanCart } = useDelivery()
+
   const [orderInfo, setOrderInfo] = useState(INITIAL_ORDER_INFO)
 
   useEffect(() => {
@@ -25,8 +28,10 @@ export function Confirmed() {
       const parsedStorage = JSON.parse(orderInfoStorage)
 
       setOrderInfo(parsedStorage)
+
+      cleanCart()
     }
-  }, [])
+  }, [cleanCart])
 
   if (Object.values(orderInfo).length <= 0) return <Navigate to="/" />
 
